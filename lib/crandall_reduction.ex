@@ -3,6 +3,7 @@ defmodule CrandallReduction do
   Documentation for `CrandallReduction`.
   """
 
+  @spec of(non_neg_integer(), integer()) :: non_neg_integer()
   def of(k, c) do
     a = Bitwise.bsl(1, k)
     mask = a - 1
