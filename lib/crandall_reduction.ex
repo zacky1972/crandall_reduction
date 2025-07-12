@@ -7,6 +7,7 @@ defmodule CrandallReduction do
     a = Bitwise.bsl(1, k)
     mask = a - 1
     p = a + c
+
     fn x ->
       low = Bitwise.band(x, mask)
       high = Bitwise.bsr(x, k)
