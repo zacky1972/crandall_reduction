@@ -10,8 +10,8 @@ defmodule CrandallReductionTest do
     1..1_000_000
     |> Enum.map(fn _ -> :rand.uniform(@max) end)
     |> Enum.map(fn x ->
-      p = Bitwise.bsl(1, @k) + @c
-      assert(rem(x, p) == CrandallReduction.of(@k, @c).(x))
+      {p, mod} = CrandallReduction.of(@k, @c)
+      assert(rem(x, p) == mod.(x))
     end)
   end
 end

@@ -8,7 +8,7 @@ defmodule CrandallReduction do
 
   ```elixir
   # Example: Ed25519 uses k=255, c=-19
-  reducer = CrandallReduction.of(255, -19)
+  {_, reducer} = CrandallReduction.of(255, -19)
 
   # Apply the reduction to a number
   result = reducer.(123456789)
@@ -42,13 +42,17 @@ defmodule CrandallReduction do
 
   ## Examples
 
-      iex> reducer = CrandallReduction.of(8, 3)
-      iex> reducer.(259)
-      259
+      iex> {p, reducer} = CrandallReduction.of(8, 3)
+      iex> reducer.(p)
+      0
 
-      iex> reducer = CrandallReduction.of(255, -19)
+      iex> {_, reducer} = CrandallReduction.of(255, -19)
       iex> reducer.(123456789)
       123456789
+
+      iex> {p, reducer} = CrandallReduction.of(255, -19)
+      iex> reducer.(p + 1)
+      1
 
   ## Use Cases
 
@@ -61,17 +65,21 @@ defmodule CrandallReduction do
 
   The algorithm uses only bitwise operations and simple arithmetic, making it significantly faster than general-purpose modular arithmetic for the target number forms.
   """
-  @spec of(non_neg_integer(), integer()) :: non_neg_integer()
+  @spec of(non_neg_integer(), integer()) ::
+          {non_neg_integer(), (non_neg_integer() -> non_neg_integer())}
   def of(k, c) do
     a = Bitwise.bsl(1, k)
     mask = a - 1
     p = a + c
 
-    fn x ->
-      low = Bitwise.band(x, mask)
-      high = Bitwise.bsr(x, k)
-      r = low - high * c
-      if r >= p, do: r - p, else: r
-    end
+    {
+      p,
+      fn x ->
+        low = Bitwise.band(x, mask)
+        high = Bitwise.bsr(x, k)
+        r = low - high * c
+        if r >= p, do: r - p, else: r
+      end
+    }
   end
 end

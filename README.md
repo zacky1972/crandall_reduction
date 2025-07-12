@@ -26,7 +26,7 @@ It returns a closure that performs modular reduction modulo `2^k + c`.
 
 ```elixir
 # Example: Ed25519 uses k=255, c=-19
-reducer = CrandallReduction.of(255, -19)
+{_, reducer} = CrandallReduction.of(255, -19)
 
 # Apply the reduction to a number
 result = reducer.(123456789)
