@@ -8,11 +8,19 @@ The Crandall reduction algorithm provides an efficient way to compute modular re
 
 ## Installation
 
-For local development, clone the repository and run:
+The package can be installed by adding `crandall_reduction` to your list of dependencies in `mix.exs`:
+
+```elixir
+def deps do
+  [
+    {:crandall_reduction, "~> 1.0"}
+  ]
+end
+```
+
+Then, install your project dependencies with:
 
 ```bash
-git clone https://github.com/your-username/crandall_reduction.git
-cd crandall_reduction
 mix deps.get
 ```
 
@@ -42,6 +50,10 @@ The Crandall reduction algorithm works by:
 4. If `r >= p`, subtracting `p` to get the final result
 
 This approach is much faster than standard modular arithmetic for numbers of this special form.
+
+## Tested Platforms
+
+* Ubuntu 22.04 / Elixir 1.18 / Erlang/OTP 28
 
 ## Testing
 
